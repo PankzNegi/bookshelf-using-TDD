@@ -3,6 +3,8 @@ package com.pankz.bookshelf;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class BookShelfTest {
@@ -50,6 +52,33 @@ public class BookShelfTest {
             //Here also as per the contract of remove method in "set.java"
             Assertions.assertThat(deleted).isTrue();
         }
+        @Test
+    public void should_not_delete_book_from_bookshelf_that_is_present()
+        {
+            BookShelf bookShelf = new BookShelf();
+            bookShelf.add(new Book("Effective Java"));
+            bookShelf.add(new Book("Clean Code"));
+            boolean deleted= bookShelf.delete(new Book("The Pragmatic Programmer"));
+            Assertions.assertThat(deleted).isFalse(); //isFalse becoz this book is not present hence remove method return false
+        }//remove couldn't find this book,hence remove method just returns false.
+
+    @Test
+    public void should_return_books_in_default_sorted_order()
+    {  //Arrange
+        BookShelf bookShelf = new BookShelf();
+        Book effectiveJavaBook = new Book("Effective Java");  //assigning local variable to each book
+        Book cleanCodeBook = new Book("Clean Code");
+        Book thePragmaticProgrammerBook = new Book("The Pragmatic Programmer");
+
+        bookShelf.add(effectiveJavaBook);
+        bookShelf.add(cleanCodeBook);
+        bookShelf.add(thePragmaticProgrammerBook);
+       //Act
+        List<Book>books= bookShelf.listBooks();
+
+        //Assert
+       Assertions.assertThat(books).containsExactly(cleanCodeBook,effectiveJavaBook,thePragmaticProgrammerBook);
+    }
 }
 
 

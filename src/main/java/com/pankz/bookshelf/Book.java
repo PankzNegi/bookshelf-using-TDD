@@ -2,7 +2,7 @@ package com.pankz.bookshelf;
 
 import java.util.Objects;
 
-public class Book {
+public class Book implements  Comparable<Book>{
     private final String title;
     public Book(String title) {
         this.title=title;
@@ -23,5 +23,10 @@ public class Book {
     @Override
     public int hashCode() {
         return Objects.hash(title);
+    }
+
+    @Override
+    public int compareTo(Book o) {
+        return this.title.compareTo(o.title);
     }
 }

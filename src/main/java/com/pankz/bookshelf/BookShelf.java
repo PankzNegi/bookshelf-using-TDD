@@ -1,7 +1,6 @@
 package com.pankz.bookshelf;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class BookShelf {
     private Set<Book> books; //Store our books
@@ -29,6 +28,12 @@ public class BookShelf {
 
         return this.books.remove(book);//Here also as per the contract of remove method in "set.java"(remove())
         //As "Book" implements equals and hashcode method so if the book is present, it willfirst find the bucket  using the hashcode
-        //then comapares the elements using equals() and finally it will be able to find the book and able to remove from hash
+        //then compares the elements using equals() and finally it will be able to find the book and able to remove from hash
+    }
+
+    public List<Book> listBooks() {
+        List<Book> sorted=new ArrayList<>(this.books);
+        Collections.sort(sorted);
+        return sorted;
     }
 }
