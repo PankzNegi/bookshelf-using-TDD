@@ -29,4 +29,11 @@ public class Book implements  Comparable<Book>{
     public int compareTo(Book o) {
         return this.title.compareTo(o.title);
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }

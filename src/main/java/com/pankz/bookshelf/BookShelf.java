@@ -4,8 +4,14 @@ import java.util.*;
 
 public class BookShelf {
     private Set<Book> books; //Store our books
+    private boolean visible;
+    public BookShelf()
+    {
+        this(false);
+    }
 
-    public BookShelf() {
+    public BookShelf(boolean visible) {
+        this.visible=visible;
         this.books = new HashSet<>();
     }
 
@@ -34,6 +40,37 @@ public class BookShelf {
     public List<Book> listBooks() {
         List<Book> sorted=new ArrayList<>(this.books);
         Collections.sort(sorted);
-        return sorted;
+        return Collections.unmodifiableList(sorted);
+    }
+
+    public List<Book> listBooksByDesc() {
+        List<Book> sorted=new ArrayList<>(this.books);
+        Collections.sort(sorted, new Comparator<Book>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o2.getTitle().compareTo(o1.getTitle());
+            }
+        });
+        return Collections.unmodifiableList(sorted);
+    }
+
+    public boolean share(String sharingType,String toEmail) {
+        if (isNotVisible()) {
+            throw new IllegalStateException("You can't share private bookshelf");
+        }
+        if (Objects.equals(sharingType, "email")) {
+            sendEmail(toEmail);
+            return true;
+        }
+        return  false;
+    }
+
+    private void sendEmail(String toEmail) {
+        System.out.println("Send email to"+toEmail);
+    }
+
+    private  boolean isNotVisible()
+    {
+        return !this.visible;
     }
 }

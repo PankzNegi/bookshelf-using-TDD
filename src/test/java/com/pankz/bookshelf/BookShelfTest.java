@@ -79,6 +79,44 @@ public class BookShelfTest {
         //Assert
        Assertions.assertThat(books).containsExactly(cleanCodeBook,effectiveJavaBook,thePragmaticProgrammerBook);
     }
+    @Test
+    public void should_return_books_in_descending_order()
+    {
+        BookShelf bookShelf = new BookShelf();
+        Book effectiveJavaBook = new Book("Effective Java");  //assigning local variable to each book
+        Book cleanCodeBook = new Book("Clean Code");
+        Book thePragmaticProgrammerBook = new Book("The Pragmatic Programmer");
+
+        bookShelf.add(effectiveJavaBook);
+        bookShelf.add(cleanCodeBook);
+        bookShelf.add(thePragmaticProgrammerBook);
+        //Act
+        List<Book>books= bookShelf.listBooksByDesc();
+
+        //Assert
+        Assertions.assertThat(books).containsExactly(thePragmaticProgrammerBook,effectiveJavaBook,cleanCodeBook);
+
+    }
+    @Test
+    public void should_throw_an_exception_if_we_try_to_share_private_bookshelf()
+    {
+        BookShelf bookShelf=new BookShelf();
+        try {
+            bookShelf.share("email","test@example.com");
+            fail("This should not happen");
+        } catch (Exception e) {
+            Assertions.assertThat(e).isInstanceOf(IllegalStateException.class);
+            Assertions.assertThat(e.getMessage()).isEqualTo("You can't share private bookshelf");
+        }
+    }
+    @Test
+    public void should_share_bookshelf_when_public()
+    {
+        BookShelf bookShelf=new BookShelf(true);
+         boolean shared=bookShelf.share("email","test@example.com");
+         Assertions.assertThat(shared).isTrue();
+    }
+
 }
 
 
